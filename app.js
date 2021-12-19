@@ -28,6 +28,8 @@ app.use(express.urlencoded({extended : false}));
 app.use(expressLayouts);
 app.set('view engine' ,'ejs');
 
+//resources
+app.use("/resources",express.static("./Resources"))
 //BodyParser
 app.use(express.urlencoded({extended : false}));
 
