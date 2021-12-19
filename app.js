@@ -9,7 +9,8 @@ const session = require('express-session');
 const app = express();
 
 //DB config
-const db = require('./config/keys').MongoURI
+const db = require('./config/keys').MongoURI;
+const { render } = require('express/lib/response');
 
 // Passport Config
 require('./config/passport')(passport);
