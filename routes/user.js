@@ -6,71 +6,81 @@ const passport = require('passport');
 
 
 //Login page
-router.get('/login' , (req , res)=>res.render('login'))
+router.get('/login', (req, res) => res.render('login'))
 
 //Register Page
-router.get('/register' ,(req , res)=>res.render('register'))
+router.get('/register', (req, res) => res.render('register'))
 
 //Register handle
-router.post('/register' ,(req , res)=>{
-    const {name , email ,age, password , password2} = req.body
+router.post('/register', (req, res) => {
+    const { name, email, age, City, Religion, Cast, password, password2 } = req.body
 
     let errors = []
     //check required fields
-    if(!name || !email || !age || !password || !password2){
-        errors.push({msg : "all fields are compulsory"})
+    if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2) {
+        errors.push({ msg: "all fields are compulsory" })
     }
 
-    if(password != password2){
-        errors.push({msg : "Passwords do not match"})
+    if (password != password2) {
+        errors.push({ msg: "Passwords do not match" })
     }
 
-    if(password.length<6){
-        errors.push({msg : "Password should be more than 6 chars"})
+    if (password.length < 6) {
+        errors.push({ msg: "Password should be more than 6 chars" })
     }
 
-    if(errors.length > 0){
+    if (errors.length > 0) {
         res.json({
             errors,
             name,
             email,
+            age,
+            City,
+            Religion,
+            Cast,
             password,
             password2
         })
-    }else{
+    } else {
         //Validation pass
-        Users.findOne({email : email}).then(user =>{
-            if(user){
+        Users.findOne({ email: email }).then(user => {
+            if (user) {
                 //User Exists
-                errors.push({msg : 'email is already registeredx'})
+                errors.push({ msg: 'email is already registeredx' })
                 res.json({
                     errors,
                     name,
                     email,
                     age,
+                    City,
+                    Religion,
+                    Cast,
                     password,
                     password2
 
                 })
-               
-            }else{
-              const newUser = new Users({
-                  name,
-                  email,
-                  age,
-                  password
-              })
+
+            } else {
+                const newUser = new Users({
+                    name,
+                    email,
+                    age,
+                    City,
+                    Religion,
+                    Cast,
+                    password
+                })
 
                 //hash password
-                bcrypt.genSalt(10, (err , salt)=>{
-                    bcrypt.hash(newUser.password ,salt , (err , hash) =>{
-                        if(err) throw err
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                        if (err) throw err
                         //set pass to hashed
                         newUser.password = hash
                         //save User
                         newUser.save()
-                            .then(user =>{
-                                res.render('dashboard',{
+                            .then(user => {
+                                res.render('dashboard', {
                                     name: name
                                 })
                             })
@@ -84,7 +94,7 @@ router.post('/register' ,(req , res)=>{
 });
 
 //Login Handle
-router.post('/login' , (req, res, next)=> {
+router.post('/login', (req, res, next) => {
     passport.authenticate('local', {
         successRedirect: '/dashboard',
         failureRedirect: '/users/login',
@@ -92,7 +102,7 @@ router.post('/login' , (req, res, next)=> {
     })(req, res, next);
 });
 
-// Logout
+//Logout
 router.get('/logout', (req, res) => {
     req.logout();
     res.send('logged out');

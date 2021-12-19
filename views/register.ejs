@@ -42,6 +42,50 @@
                     />
                 </div>
                 <div class="form-group">
+                    <label for="City">Select a City: </label>
+                    <select
+                            id="City"
+                            name="City"
+                            value="<%= typeof City != 'undefined' ? City : '' %>"
+                    >
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Karachi">Karachi</option>
+                    <option value="Faisalabad">Faisalabad</option>
+                    <option value="Quetta">Quetta</option>
+                    <option value="Sargodha">Sargodha</option>
+                    <option value="Peshawar">Peshawar</option>
+                    </select>   
+                </div>
+                <div class="form-group">
+                    <label for="Religion">Select Religion: </label>
+                    <select
+                            id="Religion"
+                            name="Religion"
+                            value="<%= typeof Religion != 'undefined' ? Religion : '' %>"
+                    >
+                    <option value="Islam">Islam</option>
+                    <option value="Christian">Christian</option>
+                    <option value="Hindu">Hindu</option>
+                    </select>   
+                </div>
+                <div class="form-group">
+                    <label for="Cast">Select a Cast: </label>
+                    <select
+                            id="Cast"
+                            name="Cast"
+                            value="<%= typeof Cast != 'undefined' ? Cast : '' %>"
+                    >
+                    <option value="Sheikh">Sheikh</option>
+                    <option value="Gujjar">Gujjar</option>
+                    <option value="Arain">Arain</option>
+                    <option value="Rajpoot">Rajpoot</option>
+                    <option value="Jutt">Jutt</option>
+                    <option value="Rana">Rana</option>
+                    <option value="Mughal">Mughal</option>
+                    </select>   
+                </div>
+                <div class="form-group">
                     <label for="password">Password</label>
                     <input
                             type="password"
