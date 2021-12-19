@@ -13,11 +13,11 @@ router.get('/register' ,(req , res)=>res.render('register'))
 
 //Register handle
 router.post('/register' ,(req , res)=>{
-    const {name , email , password , password2} = req.body
+    const {name , email ,age, password , password2} = req.body
 
     let errors = []
     //check required fields
-    if(!name || !email || !password || !password2){
+    if(!name || !email || !age || !password || !password2){
         errors.push({msg : "all fields are compulsory"})
     }
 
@@ -47,6 +47,7 @@ router.post('/register' ,(req , res)=>{
                     errors,
                     name,
                     email,
+                    age,
                     password,
                     password2
 
@@ -56,6 +57,7 @@ router.post('/register' ,(req , res)=>{
               const newUser = new Users({
                   name,
                   email,
+                  age,
                   password
               })
 
@@ -68,7 +70,9 @@ router.post('/register' ,(req , res)=>{
                         //save User
                         newUser.save()
                             .then(user =>{
-                                res.send('logged in')
+                                res.render('dashboard',{
+                                    name: name
+                                })
                             })
                     })
                 })
