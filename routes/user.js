@@ -3,6 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs')
 const Users = require('../models/Users');
 const passport = require('passport');
+const { redirect } = require('express/lib/response');
 
 
 //Login page
@@ -101,11 +102,11 @@ router.post('/login', (req, res, next) => {
         failureFlash: true
     })(req, res, next);
 });
-
+    
 //Logout
 router.get('/logout', (req, res) => {
     req.logout();
-    res.send('logged out');
+   return res.redirect('/')              
 });
 
 module.exports = router;
