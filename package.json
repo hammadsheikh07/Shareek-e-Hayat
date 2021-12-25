@@ -1,14 +1,13 @@
 {
-  "name": "passport-login",
+  "name": "shareek-e-hayat",
   "version": "1.0.0",
-  "description": "",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "hammad shahid & hamza jamil",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -23,5 +22,14 @@
   },
   "devDependencies": {
     "nodemon": "^1.19.1"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hammadsheikh07/Shareek-e-Hayat.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hammadsheikh07/Shareek-e-Hayat/issues"
+  },
+  "homepage": "https://github.com/hammadsheikh07/Shareek-e-Hayat#readme",
+  "description": ""
 }
