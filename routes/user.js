@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs')
 const Users = require('../models/Users');
 const passport = require('passport');
 const { redirect } = require('express/lib/response');
-
+const upload = require("../config/multer")
 
 //Login page
 router.get('/login', (req, res) => res.render('login'))
@@ -12,13 +12,14 @@ router.get('/login', (req, res) => res.render('login'))
 //Register Page
 router.get('/register', (req, res) => res.render('register'))
 
-//Register handle
-router.post('/register', (req, res) => {
-    const { name, email, age, City, Religion, Cast, password, password2 } = req.body
 
+//Register handle
+router.post('/register',upload.single('profile_pic'), (req, res) => {
+    const { name, email, age, City, Religion, Cast, password, password2 } = req.body
+    const profile_pic = req.file.filename
     let errors = []
     //check required fields
-    if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2) {
+if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2 || !profile_pic) {
         errors.push({ msg: "all fields are compulsory" })
     }
 
@@ -40,7 +41,8 @@ router.post('/register', (req, res) => {
             Religion,
             Cast,
             password,
-            password2
+            password2,
+            profile_pic
         })
     } else {
         //Validation pass
@@ -57,8 +59,8 @@ router.post('/register', (req, res) => {
                     Religion,
                     Cast,
                     password,
-                    password2
-
+                    password2,
+                    profile_pic
                 })
 
             } else {
@@ -69,7 +71,8 @@ router.post('/register', (req, res) => {
                     City,
                     Religion,
                     Cast,
-                    password
+                    password,
+                    profile_pic
                 })
 
                 //hash password
@@ -87,7 +90,6 @@ router.post('/register', (req, res) => {
                             })
                     })
                 })
-                console.log(newUser)
             }
         });
     }
@@ -111,4 +113,3 @@ router.get('/logout', (req, res) => {
 });
 
 module.exports = router;
-
