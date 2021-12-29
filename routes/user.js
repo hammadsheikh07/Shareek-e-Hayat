@@ -5,6 +5,7 @@ const Users = require('../models/Users');
 const passport = require('passport');
 const { redirect } = require('express/lib/response');
 const upload = require("../config/multer")
+const { ensuteAuthenticated,  } = require('../config/auth');
 
 //Login page
 router.get('/login', (req, res) => res.render('login'))
@@ -12,14 +13,22 @@ router.get('/login', (req, res) => res.render('login'))
 //Register Page
 router.get('/register', (req, res) => res.render('register'))
 
+//search Page
+router.get('/search',ensuteAuthenticated, (req, res) => {
+    res.render('search', {
+        name: req.user.name
+    })
+}
+)
+
 
 //Register handle
-router.post('/register',upload.single('profile_pic'), (req, res) => {
+router.post('/register', upload.single('profile_pic'), (req, res) => {
     const { name, email, age, City, Religion, Cast, password, password2 } = req.body
     const profile_pic = req.file.filename
     let errors = []
     //check required fields
-if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2 || !profile_pic) {
+    if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2 || !profile_pic) {
         errors.push({ msg: "all fields are compulsory" })
     }
 
@@ -108,8 +117,34 @@ router.post('/login', (req, res, next) => {
 //Logout
 router.get('/logout', (req, res) => {
     req.logout();
-   return res.redirect('/')              
     return res.redirect('/');
+});
+
+
+router.get('/', (req, res) => {
+    const searchParams = new URLSearchParams(req.query)
+    const filters = {};
+    const keys = searchParams.keys()
+    for (let filter of keys) {
+        if (filter !== "search") {
+            filters[filter] = searchParams.get(filter)
+        }
+        else if (filter === "search") {
+
+            filters["$text"] = { $search: searchParams.get("search") }
+        }
+    }
+    Users.aggregate([{
+        $match: {
+
+            ...filters
+        }
+    }]).then(Users => {
+        res.json({ Users })
+    }).catch(err => {
+        console.log(err)
+        res.status(400).json({ err });
+    })
 });
 
 module.exports = router;
