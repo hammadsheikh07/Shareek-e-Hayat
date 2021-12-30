@@ -5,7 +5,7 @@ const Users = require('../models/Users');
 const passport = require('passport');
 const { redirect } = require('express/lib/response');
 const upload = require("../config/multer")
-const { ensuteAuthenticated,  } = require('../config/auth');
+const { ensuteAuthenticated, } = require('../config/auth');
 
 //Login page
 router.get('/login', (req, res) => res.render('login'))
@@ -14,9 +14,23 @@ router.get('/login', (req, res) => res.render('login'))
 router.get('/register', (req, res) => res.render('register'))
 
 //search Page
-router.get('/search',ensuteAuthenticated, (req, res) => {
+router.get('/search', ensuteAuthenticated, (req, res) => {
     res.render('search', {
-        name: req.user.name
+        name: req.user.firstname,
+        gender: req.user.gender
+    })
+}
+)
+
+//profile Page
+router.get('/profile', ensuteAuthenticated, (req, res) => {
+    res.render('profile-page', {
+        name: req.user.firstname+" "+req.user.lastname,
+        profile_pic: req.user.profile_pic,
+        age:req.user.age,
+        Cast:req.user.Cast,
+        City:req.user.City,
+        username:req.user.firstname
     })
 }
 )
@@ -24,11 +38,11 @@ router.get('/search',ensuteAuthenticated, (req, res) => {
 
 //Register handle
 router.post('/register', upload.single('profile_pic'), (req, res) => {
-    const { name, email, age, City, Religion, Cast, password, password2 } = req.body
+    const { firstname, lastname, email, age, City, Religion, Cast, gender, password, password2 } = req.body
     const profile_pic = req.file.filename
     let errors = []
     //check required fields
-    if (!name || !email || !age || !City || !Religion || !Cast || !password || !password2 || !profile_pic) {
+    if (!firstname || !lastname || !email || !age || !City || !Religion || !gender || !Cast || !password || !password2 || !profile_pic) {
         errors.push({ msg: "all fields are compulsory" })
     }
 
@@ -43,12 +57,14 @@ router.post('/register', upload.single('profile_pic'), (req, res) => {
     if (errors.length > 0) {
         res.json({
             errors,
-            name,
+            firstname,
+            lastname,
             email,
             age,
             City,
             Religion,
             Cast,
+            gender,
             password,
             password2,
             profile_pic
@@ -61,12 +77,14 @@ router.post('/register', upload.single('profile_pic'), (req, res) => {
                 errors.push({ msg: 'email is already registered' })
                 res.json({
                     errors,
-                    name,
+                    firstname,
+                    lastname,
                     email,
                     age,
                     City,
                     Religion,
                     Cast,
+                    gender,
                     password,
                     password2,
                     profile_pic
@@ -74,12 +92,14 @@ router.post('/register', upload.single('profile_pic'), (req, res) => {
 
             } else {
                 const newUser = new Users({
-                    name,
+                    firstname,
+                    lastname,
                     email,
                     age,
                     City,
                     Religion,
                     Cast,
+                    gender,
                     password,
                     profile_pic
                 })
@@ -129,16 +149,15 @@ router.get('/', (req, res) => {
     const keys = searchParams.keys()
     for (let filter of keys) {
         if (filter !== "search") {
-            if(filter=="age")
-            {
+            if (filter == "age") {
                 filters[filter] = Number(searchParams.get(filter))
             }
-            else 
-            filters[filter] = searchParams.get(filter)
+            else
+                filters[filter] = searchParams.get(filter)
         }
         else if (filter === "search") {
 
-            filters["$text"] = { $search: searchParams.get("search") }
+            filters["$text"] = { $search: searchParams.get("search"), $language: "en" }
         }
     }
     Users.aggregate([{
@@ -153,5 +172,24 @@ router.get('/', (req, res) => {
         res.status(400).json({ err });
     })
 });
+
+router.get('/user/:id', ensuteAuthenticated, (req, res) => {
+    const id = req.params.id;
+    Users.findOne({ _id: id }).then(myuser => {
+        res.render('profile-page', {
+            name: myuser.firstname+" "+myuser.lastname,
+            profile_pic:myuser.profile_pic,
+            age:myuser.age,
+            City:myuser.City,
+            Cast:myuser.Cast,
+           username:req.user.firstname
+        })
+    })
+        .catch(err => {
+            res.status(400).json({ err })
+            console.error(err)
+        })
+})
+
 
 module.exports = router;
