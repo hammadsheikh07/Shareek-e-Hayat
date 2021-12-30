@@ -93,9 +93,11 @@ router.post('/register', upload.single('profile_pic'), (req, res) => {
                         //save User
                         newUser.save()
                             .then(user => {
-                                res.render('dashboard', {
-                                    name: name
-                                })
+                                passport.authenticate('local', {
+                                    successRedirect: '/dashboard',
+                                    failureRedirect: '/users/login',
+                                    failureFlash: true
+                                })(req, res);
                             })
                     })
                 })
@@ -127,6 +129,11 @@ router.get('/', (req, res) => {
     const keys = searchParams.keys()
     for (let filter of keys) {
         if (filter !== "search") {
+            if(filter=="age")
+            {
+                filters[filter] = Number(searchParams.get(filter))
+            }
+            else 
             filters[filter] = searchParams.get(filter)
         }
         else if (filter === "search") {

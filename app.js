@@ -30,6 +30,7 @@ app.set('view engine' ,'ejs');
 
 //resources
 app.use("/resources",express.static("./Resources"))
+app.use("/uploads",express.static("./profile_pics"))
 //BodyParser
 app.use(express.urlencoded({extended : false}));
 

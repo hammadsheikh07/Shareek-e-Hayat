@@ -1,4 +1,6 @@
 <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300;400;500;600;700&family=Road+Rage&display=swap');
+
     .myimg {
         width: 80px;
         margin-left: 10px;
@@ -24,12 +26,67 @@
     .login {
         margin-left: 580px !important;
     }
+
+    .searcharea {
+        margin-top: 20px;
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .searchbox {
+        width: 500px;
+        margin-right: 10px;
+        border-radius: 15px;
+        border: solid;
+        border-color: #602828;
+        border-width: 2px;
+        padding: 6px;
+    }
+
+    .searchbutton {
+        border: none;
+        background-color: #602828;
+        padding: 10px;
+        border-radius: 15px;
+        width: 90px;
+        color: #fff2f2;
+        font-family: 'Poppins';
+    }
+
+    .searchbutton:hover {
+        color: #602828;
+        background-color: #fff2f2;
+        border: solid;
+        border-color: #602828;
+        border-width: 2px;
+        padding: 8px;
+    }
+
+    .filters {
+        display: flex;
+        margin-top: 15px;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    .single-fil {
+        margin-left: 50px;
+    }
+
+    .for-age {
+        width: 110px;
+    }
+    .card-img
+    {
+        height: 100px;
+    }
 </style>
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
-            <a href="/"><img class="myimg" src="/Resources/logo.png"></a>
+            <a href="/dashboard"><img class="myimg" src="/Resources/logo.png"></a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -57,6 +114,107 @@
             </div>
         </div>
     </nav>
-   
-    <a href="/users/logout" class="btn btn-secondary">Logout</a>
+    <form>
+        <div class="searcharea">
+            <input class="searchbox" id="name" type="text" placeholder="Enter Name" name="name">
+            <button type="button" onclick="search()" class="searchbutton">Search</button>
+        </div>
+        <div class="filters">
+            <div class="single-fil">
+                <label for="Age">Age:</label>
+                <input class="for-age" type="number" min="18" max="40" id="age" name="age" class="form-control"
+                    placeholder="Select Age" value="<%= typeof age != 'undefined' ? age : '' %>" />
+            </div>
+            <div class="single-fil">
+                <label for="City">Select a City: </label>
+                <select id="City" name="City" value="<%= typeof City != 'undefined' ? City : '' %>">
+                    <option value="" hidden>City</option>
+                    <option value="Islamabad">Islamabad</option>
+                    <option value="Lahore">Lahore</option>
+                    <option value="Karachi">Karachi</option>
+                    <option value="Faisalabad">Faisalabad</option>
+                    <option value="Quetta">Quetta</option>
+                    <option value="Sargodha">Sargodha</option>
+                    <option value="Peshawar">Peshawar</option>
+                </select>
+            </div>
+            <div class="single-fil">
+                <label for="Religion">Select Religion: </label>
+                <select id="Religion" name="Religion" value="<%= typeof Religion != 'undefined' ? Religion : '' %>">
+                    <option value="" hidden>Religion</option>
+                    <option value="Islam">Islam</option>
+                    <option value="Christian">Christian</option>
+                    <option value="Hindu">Hindu</option>
+                </select>
+            </div>
+            <div class="single-fil">
+                <label for="Cast">Select a Cast: </label>
+                <select id="Cast" name="Cast" value="<%= typeof Cast != 'undefined' ? Cast : '' %>">
+                    <option value="" hidden>Cast</option>
+                    <option value="Sheikh">Sheikh</option>
+                    <option value="Gujjar">Gujjar</option>
+                    <option value="Arain">Arain</option>
+                    <option value="Rajpoot">Rajpoot</option>
+                    <option value="Jutt">Jutt</option>
+                    <option value="Rana">Rana</option>
+                    <option value="Mughal">Mughal</option>
+                </select>
+            </div>
+        </div>
+    </form>
+    <div class="container mt-4 text-center">
+
+        <div id="users" class="row">
+            
+        </div>
+    </div>
+    <script>
+        function search() {
+            const name = document.getElementById("name").value;
+            const age = document.getElementById("age").value;
+            const City = document.getElementById("City").value;
+            const Cast = document.getElementById("Cast").value;
+            const Religion = document.getElementById("Religion").value;
+            let url = "http://localhost:5001/users?"
+            if (name !== "") {
+                url += "name=" + name
+            }
+            if (age !== "") {
+                url += "&age=" + age
+            } if (City !== "") {
+                url += "&City=" + City
+            } if (Cast !== "") {
+                url += "&Cast=" + Cast
+            } if (Religion !== "") {
+                url += "&Religion=" + Religion
+            }
+            const container = document.getElementById("users")
+            container.innerHTML = null
+            function getCard(user) {
+                const card = `
+                <div>
+                 <div class="card" style="width: 18rem;">
+                <div class="card-img d-flex justify-content-center">
+                 <img class="card-img-top w-auto" style="max-height:100%" src="/uploads/${user.profile_pic}" alt="Card image cap">
+                </div>
+                 <div class="card-body">
+                 <h5 class="card-title">${user.name}</h5>
+                 <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                 <a href="#" class="btn btn-primary">Visit profile</a>
+  </div>
+</div>
+                        </div>
+                        `
+                const div = document.createElement("div")
+                div.className="col-md-4"
+                div.innerHTML = card;
+                container.appendChild(div);
+            }
+
+            fetch(url).then(Res => Res.json()).then(res => {
+                console.log(res.Users);
+                res.Users.map(getCard)
+            })
+        }
+    </script>
 </body>
