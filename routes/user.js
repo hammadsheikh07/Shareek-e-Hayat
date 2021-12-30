@@ -22,6 +22,16 @@ router.get('/search', ensuteAuthenticated, (req, res) => {
 }
 )
 
+//recommend Page
+router.get('/recommendations', ensuteAuthenticated, (req, res) => {
+    res.render('recommend', {
+        name: req.user.firstname,
+        gender: req.user.gender,
+        City:req.user.City
+    })
+}
+)
+
 //profile Page
 router.get('/profile', ensuteAuthenticated, (req, res) => {
     res.render('profile-page', {
