@@ -1,7 +1,11 @@
 const mongoose = require('mongoose')
 
 const UserSchema = new mongoose.Schema({
-    name: {
+    firstname: {
+        type: String,
+        required: true
+    },
+    lastname: {
         type: String,
         required: true
     },
@@ -26,6 +30,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    gender: {
+        type: String,
+        required: true
+    },
     password: {
         type: String,
         required: true
@@ -38,7 +46,7 @@ const UserSchema = new mongoose.Schema({
 })
 
 
-UserSchema.index({name:"text"});
+UserSchema.index({ firstname: "text", lastname: "text" });
 
 
 const User = mongoose.model('User', UserSchema)

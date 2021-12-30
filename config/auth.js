@@ -4,6 +4,6 @@ module.exports ={
             return next();
         }
         else
-       res.send("please login");
+       res.redirect('/users/login');
     }
 }

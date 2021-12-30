@@ -6,7 +6,8 @@ const { ensuteAuthenticated,  } = require('../config/auth');
 router.get('/dashboard', ensuteAuthenticated, (req, res) =>
 {
     res.render('dashboard', {
-        name: req.user.name
+        name: req.user.firstname,
+        gender: req.user.gender
     })
 }
 
