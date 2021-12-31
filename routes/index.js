@@ -20,10 +20,18 @@ router.get('/', (req, res) =>
     res.render('welcome')
 })
 
-//Dashboard Route
+//Contact Us Route
 router.get('/contactus', ensuteAuthenticated, (req, res) =>
 {
     res.render('contactus', {
+        username: req.user.firstname
+    })
+})
+
+//News Route
+router.get('/news', ensuteAuthenticated, (req, res) =>
+{
+    res.render('news', {
         username: req.user.firstname
     })
 })
