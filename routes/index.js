@@ -8,7 +8,8 @@ router.get('/dashboard', ensuteAuthenticated, (req, res) =>
     res.render('dashboard', {
         username: req.user.firstname,
         name: req.user.firstname+" "+req.user.lastname,
-        gender: req.user.gender
+        gender: req.user.gender,
+        id: req.user._id
     })
 }
 );
@@ -26,4 +27,3 @@ router.get('/contactus', ensuteAuthenticated, (req, res) =>
         username: req.user.firstname
     })
 })
-
