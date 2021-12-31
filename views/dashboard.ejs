@@ -25,7 +25,7 @@
     }
 
     .login {
-        margin-left: 580px !important;
+        margin-left: 10px !important;
     }
 
     .main-container {
@@ -111,6 +111,20 @@
         border-width: 3px;
         border-radius: 100px;
     }
+    .notif-con
+    {
+        background-color: red;
+        padding: 5px;
+        border-radius: 3px;
+        margin-left: -18px;
+        font-size: 10px;
+        color:#fff2f2
+    }
+    .req
+    {
+        width:50px;
+        margin-left: 590px;
+    }
 </style>
 
 <body>
@@ -134,6 +148,14 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="/contactus">About us</a>
+                    </li>
+                    <li>
+                        <a href="/users/showrequests"><img class="req" src="/Resources/fr-req.png"></a>
+                    </li>
+                    <li>
+                        <div class="notif-con">
+                            <div class="notif" id="notif"></div>
+                        </div>
                     </li>
                     <li class="nav-item login">
                         <a name="name" class="nav-link" href="/users/profile">
@@ -164,4 +186,16 @@
         <h1>Shareek e Hayat</h1>
     </div>
     <p>hello</p>
+
+    <script>
+        window.onload = function countrequests()
+        {
+            const id="<%=id%>"
+            const url="http://localhost:5001/users/user/countrequests/"+id;
+            fetch(url).then(Res => Res.json()).then(res => {
+                console.log(res.requs);
+                document.getElementById("notif").innerHTML=res.requs.length
+            })
+        };
+    </script>
 </body>
