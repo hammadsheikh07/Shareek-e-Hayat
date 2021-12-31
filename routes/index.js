@@ -6,16 +6,24 @@ const { ensuteAuthenticated,  } = require('../config/auth');
 router.get('/dashboard', ensuteAuthenticated, (req, res) =>
 {
     res.render('dashboard', {
-        name: req.user.firstname,
+        username: req.user.firstname,
+        name: req.user.firstname+" "+req.user.lastname,
         gender: req.user.gender
     })
 }
-
 );
 module.exports = router;
 //welcome Route
 router.get('/', (req, res) =>
 {
     res.render('welcome')
+})
+
+//Dashboard Route
+router.get('/contactus', ensuteAuthenticated, (req, res) =>
+{
+    res.render('contactus', {
+        username: req.user.firstname
+    })
 })
 

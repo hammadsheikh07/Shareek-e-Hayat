@@ -1,147 +1,136 @@
-<div class="row mt-5">
-    <div class="col-md-6 m-auto">
-        <div class="card card-body">
-            <h1 class="text-center mb-3">
-                <i class="fas fa-user-plus"></i> Register
-            </h1>
-            <% include messages.ejs%>
-            <form action="/users/register"  enctype="multipart/form-data" method="POST">
-                <div class="form-group">
-                    <label for="name">First Name</label>
-                    <input
-                            type="name"
-                            id="firstname"
-                            name="firstname"
-                            class="form-control"
-                            placeholder="Enter First Name"
-                            value="<%= typeof firstname != 'undefined' ? firstname : '' %>"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="lastname">Last Name</label>
-                    <input
-                            type="name"
-                            id="lastname"
-                            name="lastname"
-                            class="form-control"
-                            placeholder="Enter last Name"
-                            value="<%= typeof lastname != 'undefined' ? lastname : '' %>"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            class="form-control"
-                            placeholder="Enter Email"
-                            value="<%= typeof email != 'undefined' ? email : '' %>"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="Age">Age</label>
-                    <input
-                            type="number"
-                            min="18"
-                            max="40"
-                            id="age"
-                            name="age"
-                            class="form-control"
-                            placeholder="Select Age"
-                            value="<%= typeof age != 'undefined' ? age : '' %>"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="City">Select a City: </label>
-                    <select
-                            id="City"
-                            name="City"
-                            value="<%= typeof City != 'undefined' ? City : '' %>"
-                    >
-                    <option value="" hidden>City</option>
-                    <option value="Islamabad">Islamabad</option>
-                    <option value="Lahore">Lahore</option>
-                    <option value="Karachi">Karachi</option>
-                    <option value="Faisalabad">Faisalabad</option>
-                    <option value="Quetta">Quetta</option>
-                    <option value="Sargodha">Sargodha</option>
-                    <option value="Peshawar">Peshawar</option>
-                    </select>   
-                </div>
-                <div class="form-group">
-                    <label for="Religion">Select Religion: </label>
-                    <select
-                            id="Religion"
-                            name="Religion"
-                            value="<%= typeof Religion != 'undefined' ? Religion : '' %>"
-                    >
-                    <option value="" hidden>Religion</option>
-                    <option value="Islam">Islam</option>
-                    <option value="Christian">Christian</option>
-                    <option value="Hindu">Hindu</option>
-                    </select>   
-                </div>
-                <div class="form-group">
-                    <label for="Cast">Select a Cast: </label>
-                    <select
-                            id="Cast"
-                            name="Cast"
-                            value="<%= typeof Cast != 'undefined' ? Cast : '' %>"
-                    >
-                    <option value="" hidden>Cast</option>
-                    <option value="Sheikh">Sheikh</option>
-                    <option value="Gujjar">Gujjar</option>
-                    <option value="Arain">Arain</option>
-                    <option value="Rajpoot">Rajpoot</option>
-                    <option value="Jutt">Jutt</option>
-                    <option value="Rana">Rana</option>
-                    <option value="Mughal">Mughal</option>
-                    </select>   
-                </div>
-                <div class="form-group">
-                    <label for="gender">Select a Gender: </label>
-                    <select
-                            id="gender"
-                            name="gender"
-                            value="<%= typeof gender != 'undefined' ? gender: '' %>"
-                    >
-                    <option value="" hidden>gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    </select>   
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            class="form-control"
-                            placeholder="Create Password"
-                            value="<%= typeof password != 'undefined' ? password : '' %>"
-                    />
-                </div>
-                <div class="form-group">
-                    <label for="password2">Confirm Password</label>
-                    <input
-                            type="password"
-                            id="password2"
-                            name="password2"
-                            class="form-control"
-                            placeholder="Confirm Password"
-                            value="<%= typeof password2 != 'undefined' ? password2 : '' %>"
-                    />
-                </div>
-                <div>
-                    <label for="profile_pic">Choose Profile Picture</label>
-                        <input type="file" name="profile_pic" accept="image/*">
-                </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        Register
-                </button>
-            </form>
-            <p class="lead mt-4">Have An Account? <a href="/users/login">Login</a></p>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Quicksand:wght@300;400;500;600;700&family=Road+Rage&display=swap');
+
+    body{
+        background-color: #fff2f2;
+        font-family: 'Poppins' !important;
+    }
+    img
+    {
+        width:150px;
+        align-self: center;
+    }
+    h1{
+        color:#602828 !important;
+    }
+    label{
+        color:#602828 !important;
+    }
+    button{
+        background-color:  #602828 !important;
+    }
+    a{
+        color:#602828 !important;
+    }
+    input{
+        background-color:#fff2f2 !important;
+    }
+    select
+    {
+        background-color:#fff2f2 !important;
+        border-radius: 10px;
+        margin-left:8px;
+    }
+</style>
+
+<body>
+    <div class="row mt-5">
+        <div class="col-md-6 m-auto">
+            <div class="card card-body">
+                <img src="/Resources/logo.png">
+                <h1 class="text-center mb-3">
+                    Register
+                </h1>
+                <% include messages.ejs%>
+                    <form action="/users/register" enctype="multipart/form-data" method="POST">
+                        <div class="form-group">
+                            <label for="name">First Name</label>
+                            <input type="name" id="firstname" name="firstname" class="form-control"
+                                placeholder="Enter First Name"
+                                value="<%= typeof firstname != 'undefined' ? firstname : '' %>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="name" id="lastname" name="lastname" class="form-control"
+                                placeholder="Enter last Name"
+                                value="<%= typeof lastname != 'undefined' ? lastname : '' %>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" name="email" class="form-control" placeholder="Enter Email"
+                                value="<%= typeof email != 'undefined' ? email : '' %>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="Age">Age</label>
+                            <input type="number" min="18" max="40" id="age" name="age" class="form-control"
+                                placeholder="Select Age" value="<%= typeof age != 'undefined' ? age : '' %>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="City">Select a City: </label>
+                            <select id="City" name="City" value="<%= typeof City != 'undefined' ? City : '' %>">
+                                <option value="" hidden>City</option>
+                                <option value="Islamabad">Islamabad</option>
+                                <option value="Lahore">Lahore</option>
+                                <option value="Karachi">Karachi</option>
+                                <option value="Faisalabad">Faisalabad</option>
+                                <option value="Quetta">Quetta</option>
+                                <option value="Sargodha">Sargodha</option>
+                                <option value="Peshawar">Peshawar</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Religion">Select Religion: </label>
+                            <select id="Religion" name="Religion"
+                                value="<%= typeof Religion != 'undefined' ? Religion : '' %>">
+                                <option value="" hidden>Religion</option>
+                                <option value="Islam">Islam</option>
+                                <option value="Christian">Christian</option>
+                                <option value="Hindu">Hindu</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="Cast">Select a Cast: </label>
+                            <select id="Cast" name="Cast" value="<%= typeof Cast != 'undefined' ? Cast : '' %>">
+                                <option value="" hidden>Cast</option>
+                                <option value="Sheikh">Sheikh</option>
+                                <option value="Gujjar">Gujjar</option>
+                                <option value="Arain">Arain</option>
+                                <option value="Rajpoot">Rajpoot</option>
+                                <option value="Jutt">Jutt</option>
+                                <option value="Rana">Rana</option>
+                                <option value="Mughal">Mughal</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="gender">Select a Gender: </label>
+                            <select id="gender" name="gender" value="<%= typeof gender != 'undefined' ? gender: '' %>">
+                                <option value="" hidden>gender</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Create Password"
+                                value="<%= typeof password != 'undefined' ? password : '' %>" />
+                        </div>
+                        <div class="form-group">
+                            <label for="password2">Confirm Password</label>
+                            <input type="password" id="password2" name="password2" class="form-control"
+                                placeholder="Confirm Password"
+                                value="<%= typeof password2 != 'undefined' ? password2 : '' %>" />
+                        </div>
+                        <div>
+                            <label for="profile_pic">Choose Profile Picture</label>
+                            <input type="file" name="profile_pic" accept="image/*">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            Register
+                        </button>
+                    </form>
+                    <p class="lead mt-4">Have An Account? <a href="/users/login">Login</a></p>
+            </div>
         </div>
     </div>
-</div>
+</body>
