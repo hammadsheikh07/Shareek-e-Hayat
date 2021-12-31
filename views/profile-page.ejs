@@ -202,6 +202,7 @@
                       element.innerHTML = "Friends ✓"
                       element.classList.remove("button-add")
                       element.classList.add("done")
+                      element.disabled=true;
                   }
               }).catch(err => {
                   res.status(400).json({ err })
@@ -217,6 +218,7 @@
                       element.innerHTML = "Request Sent ✓"
                       element.classList.remove("button-add")
                       element.classList.add("done")
+                      element.disabled=true;
                   }
               }).catch(err => {
                   res.status(400).json({ err })
